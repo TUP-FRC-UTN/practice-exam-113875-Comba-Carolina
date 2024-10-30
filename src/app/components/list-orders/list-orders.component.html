@@ -1,0 +1,29 @@
+<div class="container text-center">
+    <h1>Listado de Pedidos</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Código de Orden</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Email</th>
+                <th scope="col">Cant. de Productos</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of orders; track $index) {
+            <tr>
+                <th scope="row">$index + 1</th>
+                <td>{{item.orderCode}}</td>
+                <td>{{item.customerName}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.products.length}}</td>
+                <td>{{item.timestamp | date: 'dd/MM/yyyy'}}</td>
+                <td>${{item.total}}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
