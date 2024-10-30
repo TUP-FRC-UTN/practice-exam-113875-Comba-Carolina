@@ -1,1 +1,15 @@
-<p>create-order works!</p>
+<div class="container">
+    <h1 class="text-center">Crear Orden</h1>
+    <div class="d-flex justify-content-center">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-group w-25">
+            <div class="mb-3">
+                <label>Cliente:</label>
+                <input type="text" class="form-control" formControlName="customerName">
+            </div>
+            <div class="mb-3">
+                <label>Email:</label>
+                <input type="email" class="form-control" formControlName="email">
+            </div>
+        </form>
+    </div>
+</div>
