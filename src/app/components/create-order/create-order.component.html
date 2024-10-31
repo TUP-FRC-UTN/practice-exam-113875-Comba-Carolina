@@ -1,44 +1,94 @@
 <div class="container">
-    <h1 class="text-center">Crear Orden</h1>
+    <h1>Create New Order</h1>
     <div class="">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-group">
-            <div class="mb-3">
-                <label>Cliente:</label>
-                <input type="text" class="form-control" formControlName="customerName">
-            </div>
-            <div class="mb-3">
-                <label>Email:</label>
-                <input type="email" class="form-control" formControlName="email">
-            </div>
-            <div formArrayName="products">
-                <button (click)="agregarProducto()" class="btn btn-primary">+ Producto</button>
-                @for (p of products.controls; track $index) {
-                <div [formGroupName]="$index">
+            <div class="row">
+                <div class="col-6">
                     <div class="mb-3">
-                        <label>Producto:</label>
-                        <select class="form-control" formControlName="productId" [formControl]="productSelected">
-                            <option value="" selected disabled>-- Seleccione --</option>
-                            @for (item of productos; track $index) {
-                            <option [value]="item.id">{{item.name}}</option>
-                            }
-                        </select>
+                        <label>Cliente:</label>
+                        <input type="text" class="form-control" formControlName="customerName">
                     </div>
-                    <div class="mb-3">
-                        <label>Cantidad:</label>
-                        <input type="number" class="form-control" formControlName="quantity" min="0" max="stock">
-                    </div>
-                    <div class="mb-3">
-                        <label>Precio:</label>
-                        <input type="number" class="form-control" formControlName="price" readonly formControlName="price" [value]="productSelected.value.price">
-                    </div>
-                    <div class="mb-3">
-                        <label>Stock:</label>
-                        <input type="number" class="form-control" formControlName="stock" formControlName="stock" readonly [value]="productSelected.value.stock">
-                    </div>
-                    <button (click)="quitarProducto($index)" class="btn btn-danger">- Producto</button>
                 </div>
-                }
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>Email:</label>
+                        <input type="email" class="form-control" formControlName="email">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5>Productos</h5>
+                        </div>
+                        <button class="btn btn-primary" (click)="agregarProducto()">+</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div formArrayName="products">
+                        @for (p of products.controls; track $index) {
+                        <div [formGroupName]="$index">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Producto:</label>
+                                        <select class="form-control" formControlName="name"
+                                            (change)="onProductSelect(p)">
+                                            <option value="" selected disabled>-- Seleccione --</option>
+                                            @for (item of productos; track $index) {
+                                            <option [value]="item.id">{{ item.name }}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-3">
+                                        <label class="form-label">Cantidad:</label>
+                                        <input type="number" class="form-control" formControlName="quantity" min="0"
+                                            max="stock">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-3">
+                                        <label class="form-label">Precio:</label>
+                                        <input type="number" class="form-control" formControlName="price" readonly
+                                            formControlName="price" [value]="productSelected.value.price">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-3">
+                                        <label class="form-label">Stock:</label>
+                                        <input type="number" class="form-control" formControlName="stock"
+                                            formControlName="stock" readonly [value]="productSelected.value.stock">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <button (click)="quitarProducto($index)" class="btn btn-danger">X</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        }
+                    </div>
+                </div>
+
             </div>
         </form>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Productos Seleccionados</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    @for (p of products.controls; track $index) {
+                    <li>
+                        {{ p.value.name }} - {{ p.value.quantity }} - {{ p.value.price }}
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

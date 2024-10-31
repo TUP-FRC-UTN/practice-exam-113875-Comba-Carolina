@@ -21,7 +21,12 @@ export class CreateOrderComponent implements OnInit {
   private productService = inject(ProductsService);
   productos: Producto[] = [];
 
-  productSelected = new FormControl();
+  productSelected: FormGroup = new FormGroup({
+    name: new FormControl(),
+    quantity: new FormControl(),
+    price: new FormControl(),
+    stock: new FormControl(),
+  });
 
   ngOnInit(): void {
     this.productService.getProductos().subscribe((productos) => {
@@ -39,7 +44,7 @@ export class CreateOrderComponent implements OnInit {
   });
 
   get products() {
-    return this.form.get('products') as FormArray;
+    return this.form.controls['products'] as FormArray;
   }
 
   quitarProducto(index: number) {
@@ -47,19 +52,24 @@ export class CreateOrderComponent implements OnInit {
   }
 
   agregarProducto() {
-    const selectedProduct = this.productos.find(
-      (p) => p.id === this.productSelected.value
-    );
+    const productGroup = new FormGroup({
+      name: new FormControl(''),
+      quantity: new FormControl(0, [Validators.required, Validators.min(1)]),
+      price: new FormControl({ value: 0, disabled: true }),
+      stock: new FormControl({ value: 0, disabled: true }),
+    });
+  
+    this.products.push(productGroup);
+  }
+  
+  onProductSelect(productGroup: any) {
+    const selectedProductName = productGroup.controls['name'].value;
+    const selectedProduct = this.productos.find(p => p.id === selectedProductName);
     
-      const productGroup = new FormGroup({
-        productId: new FormControl(),
-        quantity: new FormControl(),
-        price: new FormControl(),
-        stock: new FormControl(),
-      });
-      this.products.push(productGroup);
-      this.productSelected.reset();
-    
+    if (selectedProduct) {
+      productGroup.controls['price'].setValue(selectedProduct.price);
+      productGroup.controls['stock'].setValue(selectedProduct.stock);
+    }
   }
 
   onSubmit() {
