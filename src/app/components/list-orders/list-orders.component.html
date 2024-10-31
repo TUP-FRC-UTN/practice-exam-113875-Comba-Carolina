@@ -4,8 +4,8 @@
         <button class="btn btn-primary sm" routerLink="create-order">Create New Order</button>
     </div>
     <div class="card pb-3 p-3">
-        <form action="" class="pb-3">
-            <input type="text" class="form-control" placeholder="Search by customer or email..." formControlName="nameEmail">
+        <form [formControlName]="busqueda" class="pb-3">
+            <input type="text" class="form-control" placeholder="Search by customer or email..." name="busqueda" id="busqueda" [(ngModel)]="busqueda">
         </form>
         <table class="table table-hover">
             <thead>

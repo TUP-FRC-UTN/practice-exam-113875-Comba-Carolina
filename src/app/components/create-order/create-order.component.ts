@@ -21,6 +21,8 @@ export class CreateOrderComponent implements OnInit {
   private productService = inject(ProductsService);
   productos: Producto[] = [];
 
+  productSelected = new FormControl();
+
   ngOnInit(): void {
     this.productService.getProductos().subscribe((productos) => {
       this.productos = productos;
@@ -45,32 +47,19 @@ export class CreateOrderComponent implements OnInit {
   }
 
   agregarProducto() {
-    const productGroup = new FormGroup({
-      productId: new FormControl(''),
-      quantity: new FormControl('', [Validators.required, Validators.min(1)]),
-      stock: new FormControl(
-        { value: '', disabled: true },
-        Validators.required
-      ),
-      price: new FormControl(
-        { value: '', disabled: true },
-        Validators.required
-      ),
-    });
-    this.products.push(productGroup);
-  }
-
-  onProductSelect(index: number) {
-    const productGroup = this.products.at(index) as FormGroup;
-    const selectedProductId = productGroup.get('productId')?.value;
-    const selectedProduct = this.productos.find(p => p.id === selectedProductId);
-
-    if (selectedProduct) {
-      productGroup.patchValue({
-        price: selectedProduct.price,
-        stock: selectedProduct.stock,
+    const selectedProduct = this.productos.find(
+      (p) => p.id === this.productSelected.value
+    );
+    
+      const productGroup = new FormGroup({
+        productId: new FormControl(),
+        quantity: new FormControl(),
+        price: new FormControl(),
+        stock: new FormControl(),
       });
-    }
+      this.products.push(productGroup);
+      this.productSelected.reset();
+    
   }
 
   onSubmit() {

@@ -16,7 +16,7 @@
                 <div [formGroupName]="$index">
                     <div class="mb-3">
                         <label>Producto:</label>
-                        <select class="form-control" formControlName="productId" (change)="onProductSelect($index)">
+                        <select class="form-control" formControlName="productId" [formControl]="productSelected">
                             <option value="" selected disabled>-- Seleccione --</option>
                             @for (item of productos; track $index) {
                             <option [value]="item.id">{{item.name}}</option>
@@ -29,11 +29,11 @@
                     </div>
                     <div class="mb-3">
                         <label>Precio:</label>
-                        <input type="number" class="form-control" formControlName="price" readonly>
+                        <input type="number" class="form-control" formControlName="price" readonly formControlName="price" [value]="productSelected.value.price">
                     </div>
                     <div class="mb-3">
                         <label>Stock:</label>
-                        <input type="number" class="form-control" formControlName="stock" readonly>
+                        <input type="number" class="form-control" formControlName="stock" formControlName="stock" readonly [value]="productSelected.value.stock">
                     </div>
                     <button (click)="quitarProducto($index)" class="btn btn-danger">- Producto</button>
                 </div>
