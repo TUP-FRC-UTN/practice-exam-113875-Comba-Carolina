@@ -76,7 +76,7 @@
             </div>
         </form>
 
-        <div class="card">
+        <div class="card mt-3">
             <div class="card-header">
                 <h5>Productos Seleccionados</h5>
             </div>
@@ -84,10 +84,31 @@
                 <ul>
                     @for (p of products.controls; track $index) {
                     <li>
-                        {{ p.value.name }} - {{ p.value.quantity }} - {{ p.value.price }}
+                        @if(getProductDetails(p.value.name)) {
+                        {{ getProductDetails(p.value.name)?.name }} -
+                        Cantidad: {{ p.value.quantity }} -
+                        Precio: ${{ getProductDetails(p.value.name)?.price }}
+                        }
                     </li>
                     }
                 </ul>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-end">
+                    <div class="col-6">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                Total:
+                            </div>
+                            <div>
+                                $aca va el total
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -72,6 +72,11 @@ export class CreateOrderComponent implements OnInit {
     }
   }
 
+  getProductDetails(productId: number) {
+    const producto = this.productos.find(p => p.id === productId);
+    return producto || null;
+  }
+
   onSubmit() {
     if (this.form.valid) {
       console.log(this.form.value);
